@@ -1,0 +1,289 @@
+
+/*
+Cada evento en la página que muestra todos los eventos
+ */
+.event-container {
+    width: 100%;
+    height: 500px;
+    margin: 0 auto;
+    margin-top: 30px;
+    background-color: #1a1a1a;
+}
+
+.event-container-sup {
+    width: 100%;
+    height: 80%;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.event-container-sup-velo {
+    height: 100%;
+    background-color: rgba(0,0,0,0.6);
+}
+
+.event-container-sup .event_status {
+    text-align: right;
+    padding: 20px;
+    font-size: 25px;
+    font-weight: 400;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+p.data-discount {
+    text-align: center !important;
+    text-transform: initial;
+    font-size: 15px;
+    padding: 10px 20px;
+    border: 1px solid;
+}
+
+.event-information ul {
+    padding-left: 20px;
+    list-style: none;
+    bottom: 15%;
+    position: absolute;
+}
+
+.event-container-inf {
+    width: 100%;
+    height: 20%;
+    background-color: rgba(63,63,63,0.9);
+    text-align: center;
+}
+
+.event-container-inf .btn-information {
+    margin-top: 7%;
+    margin-bottom: 7%;
+    padding: 15px 30px;
+    font-size: 15px;
+    text-transform: uppercase;
+    background-color: #666;
+    border: 1px solid #666;
+}
+
+img.status_image {
+    width: 150px;
+}
+
+.event-information {
+    font-size: 15px;
+    text-transform: uppercase;
+    color: #fff;
+    font-weight: normal;
+}
+
+p.event-location {
+    text-transform: none;
+    font-weight: 100;
+}
+
+
+/* SINGLE EVENT */
+
+/*
+POPUP
+ */
+.popup {
+    width:100%;
+    height:100%;
+    display:none;
+    position:fixed;
+    top:0px;
+    left:0px;
+    background:rgba(0,0,0,0.75);
+}
+/* Inner */
+.popup-inner {
+    max-width:700px;
+    width:90%;
+    padding:40px;
+    position:absolute;
+    top:50%;
+    left:50%;
+    -webkit-transform:translate(-50%, -50%);
+    transform:translate(-50%, -50%);
+    box-shadow:0px 2px 6px rgba(0,0,0,1);
+    border-radius:3px;
+    background:#fff;
+}
+/* Close Button */
+.popup-close {
+    width:30px;
+    height:30px;
+    padding-top:4px;
+    display:inline-block;
+    position:absolute;
+    top:0px;
+    right:0px;
+    transition:ease 0.25s all;
+    -webkit-transform:translate(50%, -50%);
+    transform:translate(50%, -50%);
+    border-radius:1000px;
+    background:rgba(0,0,0,0.8);
+    font-family:Arial, Sans-Serif;
+    font-size:20px;
+    text-align:center;
+    line-height:100%;
+    color:#fff;
+}
+.popup-close:hover {
+    -webkit-transform:translate(50%, -50%) rotate(180deg);
+    transform:translate(50%, -50%) rotate(180deg);
+    background:rgba(0,0,0,1);
+    text-decoration:none;
+}
+
+.form-row {
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+
+.form-group {
+    padding-top: 20px;
+}
+
+form button.btn.btn-primary {
+    width: 50%;
+}
+
+.popup {
+    z-index: 999;
+}
+
+/*
+FIN POPUP
+ */
+
+.subscribe-button {
+    text-align: center;
+}
+
+.subscribe-button a.btn.btn-primary.btn-information {
+    width: 60%;
+}
+
+span.price-discount {
+    text-decoration: line-through;
+}
+
+span.discout-value {
+    color: #CC2121;
+}
+
+.row.no-map-row ul {
+    list-style: none;
+}
+
+.row.single-information-event.no-map-information {
+    margin-top: 60px;
+}
+
+.single-featured-image-header {
+    display: none !important;
+}
+
+.single-event-title h1 {
+    text-align: center;
+}
+
+.single-status-img {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.single-status-img img {
+    width: 180px;
+}
+
+.event-back-img {
+    width: 100%;
+    height: 500px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50% 50%;
+}
+
+.row.single-img-map-row {
+    margin-top: 40px;
+    margin-bottom: 35px;
+}
+
+.event_map {
+    width: 100%;
+    height: 500px;
+}
+
+.event_map #mapita {
+    height: 100%;
+}
+
+span.single-information-title {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.row.single-information-event ul {
+    list-style: none;
+}
+
+span.single-event-status-cancelled {
+    color: #6C1C1C;
+    font-weight: bold;
+}
+
+span.single-event-status-aplazado {
+    color: #CCA623;
+    font-weight: bold;
+}
+
+span.single-event-status-disponible {
+    color: #3F7D19;
+    font-weight: bold;
+}
+
+li.single-general-list {
+    padding-bottom: 20px;
+}
+
+.single-event-content h4 {
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.single-event-content p {
+    font-size: 15px;
+}
+
+/*
+MENSAJES PERSONALIZADOS
+ */
+
+.message-pers {
+    border: 1px solid rgba(0,123,255,0.1);
+    width: 750px;
+    text-align: center;
+    padding: 15px 10px 0px 10px;
+    margin: 0 auto;
+    margin-top: 25px;
+    background-color: rgba(0,123,255,0.1);
+}
+
+.message-pers.message-pers-error {
+    border: 1px solid #851209;
+    width: 750px;
+    text-align: center;
+    padding: 15px 10px 0px 10px;
+    margin: 0 auto;
+    margin-top: 25px;
+    background-color: rgba(133,18,9,0.1);
+}
+
+.subscribe-button a.btn.btn-primary.btn-information.btn-information-no-places {
+    background-color: rgba(0,123,255,0.5);
+    border-color: rgba(0,123,255,0.5);
+    cursor: none;
+}
