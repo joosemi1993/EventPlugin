@@ -408,11 +408,6 @@ while ( have_posts() ) : the_post(); ?>
                                         <?php
                                     }
                                 }
-
-
-
-
-
                             } elseif ($confirm == 'del') {
                                 $user_ref = $_GET['num'];
                                 $user = $wpdb->get_var("DELETE FROM $table_name_users WHERE event_user_ref = '$user_ref' AND event_id = '$event_id'");
@@ -612,6 +607,7 @@ while ( have_posts() ) : the_post(); ?>
                 if ($status == "Disponible") {
                     if ($price == '') {
                         if ($subscribe_quantity != '') { ?>
+                            <div class="subscribe-button">
                             <?php
                             $count_places_table = $wpdb->prefix . "cem_event_places";
                             $count_places = $wpdb -> get_var("SELECT COUNT(*) FROM $count_places_table WHERE event_id = '$post_id'");
@@ -631,9 +627,6 @@ while ( have_posts() ) : the_post(); ?>
                                 <?php
                             }
                             ?>
-                            <div class="subscribe-button">
-                                <a href="#" data-popup-open="popup-1" class="btn btn-primary btn-information"
-                                   id="popup-1">Suscribirme al Evento</a>
                                 <div class="popup" data-popup="popup-1">
                                     <div class="popup-inner">
                                         <div class="modal-content">
@@ -966,6 +959,7 @@ while ( have_posts() ) : the_post(); ?>
                 if ($status == "Disponible") {
                     if ($price == '') {
                         if($subscribe_quantity != '') {?>
+                            <div class="subscribe-button">
                             <?php
                             $count_places_table = $wpdb->prefix . "cem_event_places";
                             $count_places = $wpdb -> get_var("SELECT COUNT(*) FROM $count_places_table WHERE event_id = '$post_id'");
@@ -985,8 +979,6 @@ while ( have_posts() ) : the_post(); ?>
                                 <?php
                             }
                             ?>
-                            <div class="subscribe-button">
-                                <a href="#" data-popup-open="popup-1" class="btn btn-primary btn-information" id="popup-1">Suscribirme al Evento</a>
                                 <div class="popup" data-popup="popup-1">
                                     <div class="popup-inner">
                                         <div class="modal-content">
@@ -1282,6 +1274,7 @@ while ( have_posts() ) : the_post(); ?>
                 if ($status == "Disponible") {
                     if ($price == '') {
                         if($subscribe_quantity != '') {?>
+                            <div class="subscribe-button">
                             <?php
                             $count_places_table = $wpdb->prefix . "cem_event_places";
                             $count_places = $wpdb -> get_var("SELECT COUNT(*) FROM $count_places_table WHERE event_id = '$post_id'");
@@ -1301,8 +1294,6 @@ while ( have_posts() ) : the_post(); ?>
                                 <?php
                             }
                             ?>
-                            <div class="subscribe-button">
-                                <a href="#" data-popup-open="popup-1" class="btn btn-primary btn-information" id="popup-1">Suscribirme al Evento</a>
                                 <div class="popup" data-popup="popup-1">
                                     <div class="popup-inner">
                                         <div class="modal-content">
