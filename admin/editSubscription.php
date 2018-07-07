@@ -17,6 +17,7 @@ $users_table = $wpdb->prefix . "cem_event_user";
 
 $change = 0;
 
+// SI EN EL FORMULARIO HEMOS CAMBIADO EL ESTADO RESPECTO AL ACTUAL ENTRAMOS
 if ($user_ori_status != $user_new_status) {
     $event_places = $wpdb->get_var("SELECT places_num FROM $event_table WHERE event_id = '$event_id'");
     if ($user_new_status == 1) {
@@ -47,7 +48,7 @@ if ($user_ori_status != $user_new_status) {
     $change = 1;
 }
 
-
+// SI HA CAMBIADO EL EMAIL Y NO EXISTE YA EN ESE EVENTO LO CAMBIAMOS
 $count_mail = $wpdb->get_var("SELECT COUNT(*) FROM $users_table WHERE event_id = '$event_id' AND user_mail = '$user_new_mail'");
 
 if ($user_ori_mail != $user_new_mail) {

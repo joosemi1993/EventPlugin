@@ -13,7 +13,7 @@ $user_status = $_POST['delete_event_status'];
 
 $event_table = $wpdb->prefix . "cem_event_places";
 $users_table = $wpdb->prefix . "cem_event_user";
-
+// ELIMINAMOS ESE USUARIO DE LA BASE DE DATOS
 if ($user_status == 1) {
     $event_places = $wpdb->get_var("SELECT places_num FROM $event_table WHERE event_id = '$event_id'");
     $event_places = intval($event_places + 1);

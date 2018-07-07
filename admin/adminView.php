@@ -6,6 +6,7 @@ session_start();
 
 if (is_admin()) {
     global $wpdb;
+    // CREAMOS LA TABLA QUE MUESTRA TODOS LOS EVENTOS
     ?>
     <div class="admin-event-section">
         <div class="admin-events-title">
@@ -100,12 +101,14 @@ if (is_admin()) {
             </div>
         </div>
     </div>
+    <!-- TABLA QUE MUESTRA TODOS LOS USUARIOS QUE HAY INSCRITOS EN CADA EVENTO -->
     <div class="admin-users-section">
         <div class="admin-users-title">
             <h1>Usuarios de cada evento inscritos o pendientes de inscribirse</h1>
         </div>
 
         <?php
+        // DEPENDIENDO DEL VALOR DE LA VARIABLE DEL ENLACE MOSTRAREMOS UN MENSAJE U OTRO
         $function_result = $_GET['change'];
         if ($function_result == 'error') {
             ?>
@@ -138,6 +141,7 @@ if (is_admin()) {
         }
         ?>
 
+        <!-- BOTÓN DE FILTRADO -->
         <div class="custom-search">
             <form action="" method="post">
                 <select name="filter_event_name" id="">
@@ -271,6 +275,7 @@ if (is_admin()) {
                 </div>
             </div>
         <?php
+            // SI NO FILTRAMOS SE NOS MUESTRAN TODOS
         } else { ?>
             <div class="admin-users-content">
                 <div class="container">
@@ -372,10 +377,10 @@ if (is_admin()) {
         }
         ?>
     </div>
+
     <?php
-
+    // CREAMOS EL BOTÓN DE SUSCRIPCIÓN
     $subscribe_file = plugins_url( 'adminSubscribe.php', __FILE__ );
-
     ?>
 
     <div class="subscribe-button">
@@ -427,17 +432,11 @@ if (is_admin()) {
                                                     <?php
                                                 }
                                             }
-                                            ?>
-
-
-
-                                        <?php
                                         endwhile;
                                     endif;
                                     ?>
                                 </select>
                             </div>
-
                             <button class="btn btn-primary" type="submit" name="submit">Suscribir</button>
                         </form>
                     </div>
@@ -467,6 +466,8 @@ if (is_admin()) {
 
 } else {
     ?>
-    <p>Lo siento</p>
+    <div class="no-more-events">
+        <h2>Lo siento, no dispone de servicios para ver esta página</h2>
+    </div>
     <?php
 }

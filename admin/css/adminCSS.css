@@ -304,3 +304,15 @@ p.return-message.return-subscribe {
 .event-metabox label {
     font-weight: bold;
 }
+
+.no-access-admin {
+    text-align: center;
+    width: 100%;
+    text-transform: uppercase;
+    margin-top: 285px;
+}
+
+.no-access-admin h2 {
+    font-size: 50px;
+    font-weight: bold;
+}

@@ -44,6 +44,7 @@ get_header(); ?>
                     $event_hour_ini = array_values($dates)[1];
 
                     $event_date_end = array_values($dates)[2];
+                    $str_date_end = strtotime($event_date_end);
 
                     $event_hour_end = array_values($dates)[3];
 
@@ -78,62 +79,67 @@ get_header(); ?>
                     $img_definida = get_the_post_thumbnail_url( $post );
 
                     // EMPEZAMOS CON LA ESTRUCTURA
-
-                    if(isset($status) && $status != 'Finalizado') { ?>
+                   // if ((!isset($event_date_end) && $event_date_ini > $actual_date) || (isset($event_date_end) && $str_date_end < $actual_date)) {
+                        if ($status != 'Finalizado') { ?>
                         <div class="col-md-4 events-col">
                             <div class="event-container">
-                             <?php
-                             if ( has_post_thumbnail() ) { ?>
+                                <?php
+                                if (has_post_thumbnail()) { ?>
                                 <div class="event-container-sup" style="background-image: url(<?php echo $img_definida; ?>)">
-                             <?php
-                             } else { ?>
-                                 <div class="event-container-sup" style="background-image: url(<?php echo $img_evento; ?>)">
-                             <?php
-                             }
-                             ?>
-                                    <div class="event-container-sup-velo">
-                                        <div class="event_status">
-                                            <?php
-                                            if ($status == 'Disponible') {
-                                                if( $price != '') {
-                                                    if (trim($data_discount) != '') {
-                                                        if($end_discount_date_time >= $actual_date) { ?>
-                                                            <p class="data-discount"><?php echo $data_discount . '% hasta ' . $end_date_discount_format;?></p>
+                                    <?php
+                                } else { ?>
+                                    <div class="event-container-sup" style="background-image: url(<?php echo $img_evento; ?>)">
+                                        <?php
+                                        }
+                                        ?>
+                                        <div class="event-container-sup-velo">
+                                            <div class="event_status">
+                                                <?php
+                                                // SI EL ESTADO ES DISPONIBLE Y EXISTE EL VALOR DE PRECIO LO PONEMOS CON SU DIVISA CORRESPONDIENTE
+                                                if ($status == 'Disponible') {
+                                                    if ($price != '') {
+                                                        // SI EXISTE DESCUENTO Y NO SE HA PASADO DE LA FECHA LO MOSTRAMOS
+                                                        if (trim($data_discount) != '') {
+                                                            if ($end_discount_date_time >= $actual_date) { ?>
+                                                                <p class="data-discount"><?php echo $data_discount . '% hasta ' . $end_date_discount_format; ?></p>
+                                                                <?php
+                                                            }
+                                                        }
+
+                                                        if ($currency == 'eur') { ?>
+                                                            <p><?php echo $price . ' €'; ?></p>
+                                                            <?php
+
+                                                        } elseif ($currency == 'usd') { ?>
+                                                            <p><?php echo $price . ' $'; ?></p>
+                                                            <?php
+                                                        } elseif ($currency == 'gbp') { ?>
+                                                            <p><?php echo $price . ' £'; ?></p>
+                                                            <?php
+                                                        } elseif ($currency == 'pln') { ?>
+                                                            <p><?php echo $price . ' zł'; ?></p>
                                                             <?php
                                                         }
+                                                    } else { ?>
+                                                        <p>Gratis</p>
+                                                        <?php
                                                     }
-
-                                                    if ($currency == 'eur') { ?>
-                                                        <p><?php echo $price . ' €'; ?></p>
-                                                        <?php
-
-                                                    } elseif ($currency == 'usd') { ?>
-                                                        <p><?php echo $price . ' $'; ?></p>
-                                                        <?php
-                                                    } elseif ($currency == 'gbp') { ?>
-                                                        <p><?php echo $price . ' £'; ?></p>
-                                                        <?php
-                                                    } elseif ($currency == 'pln') { ?>
-                                                        <p><?php echo $price . ' zł'; ?></p>
-                                                     <?php
-                                                    }
-                                                } else { ?>
-                                                    <p>Gratis</p>
-                                                <?php
+                                                // SI EL ESTADO ES PROXIMAMENTE, LO MOSTRAMOS EN VEZ DEL PRECIO
+                                                } elseif ($status == 'Proximamente') { ?>
+                                                    <p><?php echo $status; ?></p>
+                                                    <?php
+                                                // SI EL ESTADO ES APLAZADO, LO MOSTRAMOS EN VEZ DEL PRECIO
+                                                } elseif ($status == 'Aplazado') { ?>
+                                                    <img src="<?php echo $img_aplazado; ?>" alt="" class="status_image">
+                                                    <?php
+                                                // SI EL ESTADO ES CANCELADO, LO MOSTRAMOS EN VEZ DEL PRECIO
+                                                } elseif ($status == 'Cancelado') { ?>
+                                                    <img src="<?php echo $img_cancelado; ?>" alt="" class="status_image">
+                                                    <?php
                                                 }
-
-                                            } elseif ($status == 'Proximamente') { ?>
-                                                <p><?php echo $status; ?></p>
-                                            <?php
-                                            } elseif ($status == 'Aplazado') { ?>
-                                                <img src="<?php echo $img_aplazado; ?>" alt="" class="status_image">
-                                            <?php
-                                            } elseif ($status == 'Cancelado') { ?>
-                                                <img src="<?php echo $img_cancelado; ?>" alt="" class="status_image">
-                                            <?php
-                                            }
-                                            ?>
-                                        </div>
+                                                ?>
+                                            </div>
+                                            <!-- MOSTRAMOS LA INFORMACIÓN DEL EVENTO -->
                                             <div class="event-information">
                                                 <ul>
                                                     <li>
@@ -144,17 +150,18 @@ get_header(); ?>
                                                         <li>
                                                             <p class="event-dates"><?php echo $event_date_ini; ?> </p>
                                                         </li>
-                                                    <?php
+                                                        <?php
                                                     } elseif ($event_date_ini == '01/01/1970 ') { ?>
                                                         <li>
                                                             <p class="event-dates"> Próximamente </p>
                                                         </li>
-                                                    <?php
+                                                        <?php
                                                     } else { ?>
                                                         <li>
-                                                            <p class="event-dates"> <?php echo $event_hour_ini; ?> - <?php echo $event_date_ini; ?> </p>
+                                                            <p class="event-dates"> <?php echo $event_hour_ini; ?>
+                                                                - <?php echo $event_date_ini; ?> </p>
                                                         </li>
-                                                    <?php
+                                                        <?php
                                                     }
                                                     ?>
                                                     <?php
@@ -162,38 +169,48 @@ get_header(); ?>
                                                         <li>
                                                             <p class="event-location"> <?php echo $address; ?> </p>
                                                         </li>
-                                                    <?php
+                                                        <?php
                                                     }
                                                     ?>
                                                 </ul>
                                             </div>
                                         </div>
                                     </div>
-                                <div class="event-container-inf">
-                                    <?php
-                                    if( $url != '' ) {
-                                        if ($status != 'Cancelado') { ?>
-                                            <a href="<?php echo $url; ?>" target="_blank"><button class="btn btn-primary btn-information">Más información</button></a>
-                                            <?php
+                                    <!-- MONTAMOS EL BOTÓN QUE NOS LLEVARÁ A LA PÁGINA DEL EVENTO-->
+                                    <div class="event-container-inf">
+                                        <?php
+                                        if ($url != '') {
+                                            if ($status != 'Cancelado') { ?>
+                                                <a href="<?php echo $url; ?>" target="_blank">
+                                                    <button class="btn btn-primary btn-information">Más información</button>
+                                                </a>
+                                                <?php
+                                            } else { ?>
+                                                <a href="<?php echo the_permalink(); ?>" target="_blank">
+                                                    <button class="btn btn-primary btn-information">Más información</button>
+                                                </a>
+                                                <?php
+                                            }
                                         } else { ?>
-                                            <a href="<?php echo the_permalink(); ?>" target="_blank"><button class="btn btn-primary btn-information">Más información</button></a>
+                                            <a href="<?php echo the_permalink(); ?>" target="_blank">
+                                                <button class="btn btn-primary btn-information">Más información</button>
+                                            </a>
                                             <?php
                                         }
-                                    } else { ?>
-                                        <a href="<?php echo the_permalink(); ?>" target="_blank"><button class="btn btn-primary btn-information">Más información</button></a>
-                                        <?php
-                                    }
-                                    ?>
+                                        ?>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <?php
-                    }
+                            <?php
+                        }
+                   // }
                     ?>
                 <?php
                 endwhile;
             else: ?>
-                <h2>No hay publicaciones</h2>
+            <div class="no-access-admin">
+                <h2>No existen eventos actualmente</h2>
+            </div>
             <?php
             endif;
             ?>

@@ -386,7 +386,7 @@ add_action( 'save_post', ['CEM_Event_Subscription_Metacaja', 'save']);
 
 /*
  *
- * CRECIÓN DE LAS COLUMNAS PARA MOSTRAR EN LA VISTA GENERAL DE EVENTOS
+ * CREACIÓN DE LAS COLUMNAS PARA MOSTRAR EN LA VISTA GENERAL DE EVENTOS
  *
  */
 
@@ -436,9 +436,7 @@ function cem_custom_column( $column, $post_id ) {
 
 add_action('wp_head','head_code');
 
-function head_code()
-{
-
+function head_code() {
     $output = '<script  src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" 
                         integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" 
                         crossorigin="anonymous">
@@ -449,7 +447,6 @@ function head_code()
                       integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" 
                       crossorigin="anonymous">';
     echo $output;
-
 }
 
 /*
@@ -457,6 +454,7 @@ function head_code()
  * CREACIÓN DE LA PÁGINA QUE MUESTRA TODOS LOS EVENTOS
  *
  */
+
 function booklistTpl_archive($template){
     if(is_post_type_archive('custom-event-manager')){
         $theme_files = array('archive-custom-event-manager.php');
@@ -475,8 +473,8 @@ add_filter('archive_template','booklistTpl_archive');
  * CREACIÓN DE LA PÁGINA QUE MUESTRA CADA EVENTO DE FORMA INDIVIDUAL
  *
  */
-function cpte_force_template( $template )
-{
+
+function cpte_force_template( $template ) {
 
     if( is_singular( 'custom-event-manager' ) ) {
         $template = plugin_dir_path(__FILE__) . '/admin/single-custom-event-manager.php';
@@ -484,6 +482,7 @@ function cpte_force_template( $template )
 
     return $template;
 }
+
 add_filter( 'template_include', 'cpte_force_template' );
 
 
@@ -492,6 +491,7 @@ add_filter( 'template_include', 'cpte_force_template' );
  * CREACIÓN DEL ARCHIVO QUE CONTENDRÁ EL CSS DE LOS EVENTOS
  *
  */
+
 function wpdocs_theme_name_scripts() {
     wp_enqueue_style( 'style-name', plugins_url( 'admin/css/myCSS.css', __FILE__ ) );
 }
@@ -502,6 +502,12 @@ function wpdocs_theme_name_admin_scripts() {
 }
 add_action( 'admin_enqueue_scripts', 'wpdocs_theme_name_admin_scripts' );
 
+
+/*
+ *
+ * FUNCIÓN QUE ELIMINA LAS TABLAS DE LOS EVENTOS CUANDO DESACTIVAMOS EL PLUGIN
+ *
+ */
 
 function cem_event_delete_bbdd_tables() {
     global $wpdb;
@@ -522,7 +528,7 @@ register_deactivation_hook( __FILE__, 'cem_event_delete_bbdd_tables' );
 /*
  *
  *  CREACIÓN DE UN MENÚ DE ADMINISTRACIÓN QUE CONTENDRÁ LA INFORMACIÓN NECESARIA PARA EL USO DE NUESTRO PLUGIN.
- * EL CÓDIGO HTML DE ESTA PÁGINA SE ENCUENTRA EN EL ARCHIVO /ADMIN/VIEW.PHP
+ *  EL CÓDIGO HTML DE ESTA PÁGINA SE ENCUENTRA EN EL ARCHIVO /ADMIN/VIEW.PHP
  *
  */
 if( !function_exists( 'cem_options_page' ) ) {

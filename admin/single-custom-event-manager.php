@@ -79,6 +79,7 @@ while ( have_posts() ) : the_post(); ?>
                 </div>
             </div>
         </div>
+        <!-- DEPENDIENDO DEL ESTADO SI ES CANCELADO O APLAZADO MOSTRAMOS UN CARTEL BAJO EL TITULO -->
         <?php if ($status == 'Aplazado') { ?>
         <div class="row">
             <div class="col-md-12">
@@ -100,6 +101,7 @@ while ( have_posts() ) : the_post(); ?>
         }
         /* ESTRUCTURA GENERAL */
 
+        // PRIMER CASO --> SI TIENE IMAGEN DEFINIDA PERO NO EXISTE MAPA
         if (has_post_thumbnail()) { ?>
             <?php if ($event_latitude == '' || $event_longitude == '') {?>
                 <div class="row single-img-map-row">
@@ -107,9 +109,11 @@ while ( have_posts() ) : the_post(); ?>
                         <div class="event-back-img" class="single-event-img-bck"
                              style="background-image: url(<?php echo $img_definida; ?>)"></div>
                     </div>
+                    <!-- INFORMACIÓN DEL EVENTO -->
                     <div class="col-md-8">
                         <div class="row no-map-row">
                             <ul>
+                                <!-- ESTADO DEL EVENTO -->
                                 <li class="single-general-list single-state-event">
                                     <?php
                                     if ($status == 'Cancelado') { ?>
@@ -129,10 +133,12 @@ while ( have_posts() ) : the_post(); ?>
                                     }
                                     ?>
                                 </li>
-                                <li class="single-general-list single-places-event">
-                                    <?php
+                                <?php
+                                // SI EXISTEN PLAZAS MOSTRAMOS LA CANTIDAD, SI NO DECIMOS QUE NO HAY PLAZAS
                                     if($status=='Disponible') {
-                                        if ($price == '' || $price == '0') {
+                                        if ($price == '' || $price == '0') {?>
+                                            <li class="single-general-list single-places-event">
+                                            <?php
                                             $count_places_table = $wpdb->prefix . "cem_event_places";
                                             $count_places = $wpdb -> get_var("SELECT COUNT(*) FROM $count_places_table WHERE event_id = '$post_id'");
                                             if ($count_places > 0) {
@@ -141,17 +147,23 @@ while ( have_posts() ) : the_post(); ?>
                                                 <span class="single-information-title">Plazas:</span>  <?php echo ' ' . $event_places; ?>
                                                 <?php
                                             } elseif ($count_places == 0) {
-                                                ?>
-                                                <span class="single-information-title">Plazas:</span> No existen plazas disponibles
-                                                <?php
+                                                if ($subscribe_quantity != '' && $subscribe_quantity != '0') {
+                                                    ?>
+                                                    <span class="single-information-title">Plazas:</span> <?php echo $subscribe_quantity; ?>
+                                                    <?php
+                                                } else {
+                                                    ?>
+                                                    <span class="single-information-title">Plazas:</span> No existen plazas disponibles
+                                                    <?php
+                                                }
                                             }
                                             ?>
-
+                                        </li>
                                         <?php
                                         }
                                     }
                                     ?>
-                                </li>
+                                <!-- FECHAS DEL EVENTO -->
                                 <li class="single-general-list single-date-event">
                                     <?php
                                     if ($event_date_ini == '01/01/1970') { ?>
@@ -166,6 +178,7 @@ while ( have_posts() ) : the_post(); ?>
                                     }
                                     ?>
                                 </li>
+                                <!-- HORARIO DEL EVENTO -->
                                 <li class="single-general-list single-time-event">
                                     <?php
                                     if ($event_hour_ini == '') { ?>
@@ -179,9 +192,10 @@ while ( have_posts() ) : the_post(); ?>
                                     }
                                     ?>
                                 </li>
+                                <!-- PRECIO DEL EVENTO CON SU DIVISA -->
                                 <li class="single-general-list single-price-event">
                                     <?php
-                                    if ($price != '') {
+                                    if ($price != '' && $price != '0') {
                                         if ($currency == 'eur') { ?>
                                             <?php if(trim($data_discount) != '') {
                                                 if($end_discount_date_time >= $actual_date) { ?>
@@ -230,6 +244,7 @@ while ( have_posts() ) : the_post(); ?>
                                     ?>
                                 </li>
                                 <?php
+                                // SI TIENE URL EXTERNA LA PONEMOS
                                 if ($url != '') { ?>
                                     <li class="single-general-list single-url-event">
                                         <span class="single-information-title">URL:</span> <a
@@ -238,11 +253,13 @@ while ( have_posts() ) : the_post(); ?>
                                     <?php
                                 }
                                 ?>
+                                <!-- DIRECCIÓN DEL EVENTO -->
                                 <li class="single-general-list single-address-event">
                                     <span class="single-information-title">Dirección:</span> <?php echo ' ' . $address; ?>
                                 </li>
                             </ul>
                         </div>
+                        <!-- DESCRIPCIÓN DEL EVENTO -->
                         <div class="row no-map-row">
                             <?php
                             if (!empty(get_the_content())) { ?>
@@ -256,6 +273,7 @@ while ( have_posts() ) : the_post(); ?>
                     </div>
                 </div>
                 <?php
+                // SI EL EVENTO ESTÁ DISPONIBLE, ES GRATUITO Y EXISTEN PLAZAS MOSTRAMOS EL BOTÓN DE SUSCRIBIR USUARIOS
                 if ($status == "Disponible") {
                     if ($price == '') {
                         if($subscribe_quantity != '') {?>
@@ -278,6 +296,7 @@ while ( have_posts() ) : the_post(); ?>
                                     <a href="#" class="btn btn-primary btn-information btn-information-no-places" id="popup-2">Suscribirme al Evento</a>
                                     <?php
                                 }
+                                // CREAMOS EL MODAL DE SUSCRIPCIÓN
                                 ?>
                                 <div class="popup" data-popup="popup-1">
                                     <div class="popup-inner">
@@ -335,7 +354,7 @@ while ( have_posts() ) : the_post(); ?>
                             </div>
 
                             <?php
-
+                            // DEPENDIENDO DEL VALOR DE LA VARIABLE QUE NOS MUESTRA EN EL ENLACE HAREMOS UNA ACCIÓN U OTRA
                             $confirm = $_GET['confirm'];
                             $id_ref = $_GET['ref'];
                             $table_name_users = $wpdb->prefix . "cem_event_user";
@@ -343,7 +362,7 @@ while ( have_posts() ) : the_post(); ?>
                             $event_id = get_the_ID();
                             $event_url = get_the_permalink();
                             $event_title = get_the_title();
-
+                            // SI VALE TRUE ENVIAREMOS UN CORREO CON EL CÓDIGO QR CORRESPONDIENTE
                             if($confirm == 'true') {
                                 $confirm_var = $wpdb->get_var("SELECT confirm FROM $table_name_users WHERE id = '$id_ref'");
                                 if ($confirm_var != 1) {
@@ -408,6 +427,7 @@ while ( have_posts() ) : the_post(); ?>
                                         <?php
                                     }
                                 }
+                            // SI VALE DEL ES QUE HEMOS ELIMINADO EL USUARIO
                             } elseif ($confirm == 'del') {
                                 $user_ref = $_GET['num'];
                                 $user = $wpdb->get_var("DELETE FROM $table_name_users WHERE event_user_ref = '$user_ref' AND event_id = '$event_id'");
@@ -424,13 +444,14 @@ while ( have_posts() ) : the_post(); ?>
                                     <p>Su petición de desinscribirse se ha efectuado con éxito</p>
                                 </div>
                                 <?php
-
+                            // SI ESTÁ A PEND HAY QUE REVISAR EL CORREO
                             } elseif ($confirm == 'pend') {
                                 ?>
                                 <div class="message-pers">
                                     <p>Hemos enviado a su correo un email de confirmación. Por favor, revise su bandeja de entrada</p>
                                 </div>
                                 <?php
+                            // SI VALE EXIST ES QUE ESE USUARIO YA EXISTE EN ESE EVENTO
                             } elseif ($confirm == 'exists') {
                                 ?>
                                 <div class="message-pers message-pers-error">
@@ -444,7 +465,9 @@ while ( have_posts() ) : the_post(); ?>
                         }
                     }
                 }
+            // SEGUNDO CASO --> TENEMOS MAPA E IMAGEN
             } else { ?>
+                <!-- MOSTRAMOS EL MAPA Y LA IMAGEN EN LA PRIMERA FILA -->
                 <div class="row single-img-map-row">
                     <div class="col-md-4">
                         <div class="event-back-img" class="single-event-img-bck"
@@ -456,11 +479,13 @@ while ( have_posts() ) : the_post(); ?>
                         </div>
                     </div>
                 </div>
+                <!-- INFORMACIÓN DEL EVENTO -->
                 <div class="row single-information-event">
                     <div class="col-md-4">
                         <ul>
                             <li class="single-general-list single-state-event">
                                 <?php
+                                // ESTADO DEL EVENTO
                                 if ($status == 'Cancelado') { ?>
                                     <span class="single-information-title">Estado:</span> <span
                                             class="single-event-status-cancelled"><?php echo ' ' . $status; ?> </span>
@@ -480,6 +505,7 @@ while ( have_posts() ) : the_post(); ?>
                             </li>
                             <li class="single-general-list single-date-event">
                                 <?php
+                                // FECHA DEL EVENTO
                                 if ($event_date_ini == '01/01/1970') { ?>
                                     <span class="single-information-title">Fecha:</span>
                                     <?php
@@ -492,10 +518,13 @@ while ( have_posts() ) : the_post(); ?>
                                 }
                                 ?>
                             </li>
-                            <li class="single-general-list single-places-event">
-                                <?php
+                            <?php
+                            // PLAZAS DEL EVENTO
                                 if($status=='Disponible') {
                                     if ($price == '' || $price == '0') {
+                                        ?>
+                                        <li class="single-general-list single-places-event">
+                                        <?php
                                         $count_places_table = $wpdb->prefix . "cem_event_places";
                                         $count_places = $wpdb -> get_var("SELECT COUNT(*) FROM $count_places_table WHERE event_id = '$post_id'");
                                         if ($count_places > 0) {
@@ -504,19 +533,26 @@ while ( have_posts() ) : the_post(); ?>
                                             <span class="single-information-title">Plazas:</span>  <?php echo ' ' . $event_places; ?>
                                             <?php
                                         } elseif ($count_places == 0) {
-                                            ?>
-                                            <span class="single-information-title">Plazas:</span> No existen plazas disponibles
-                                            <?php
+                                            if ($subscribe_quantity != '' && $subscribe_quantity != '0') {
+                                                ?>
+                                                <span class="single-information-title">Plazas:</span> <?php echo $subscribe_quantity; ?>
+                                                <?php
+                                            } else {
+                                                ?>
+                                                <span class="single-information-title">Plazas:</span> No existen plazas disponibles
+                                                <?php
+                                            }
                                         }
                                         ?>
-
+                                        </li>
                                         <?php
                                     }
                                 }
                                 ?>
-                            </li>
+
                             <li class="single-general-list single-time-event">
                                 <?php
+                                // HORARIO DEL EVENTO
                                 if ($event_hour_ini == '') { ?>
                                     <span class="single-information-title">Horario:</span>
                                     <?php
@@ -530,7 +566,8 @@ while ( have_posts() ) : the_post(); ?>
                             </li>
                             <li class="single-general-list single-price-event">
                                 <?php
-                                if ($price != '') {
+                                // PRECIO DEL EVENTO
+                                if ($price != '' && $price != '0') {
                                     if ($currency == 'eur') { ?>
                                         <?php if (trim($data_discount) != '') {
                                             if ($end_discount_date_time >= $actual_date) { ?>
@@ -579,6 +616,7 @@ while ( have_posts() ) : the_post(); ?>
                                 ?>
                             </li>
                             <?php
+                            // URL DEL EVENTO
                             if ($url != '') { ?>
                                 <li class="single-general-list single-url-event">
                                     <span class="single-information-title">URL:</span> <a
@@ -586,6 +624,7 @@ while ( have_posts() ) : the_post(); ?>
                                 </li>
                                 <?php
                             }
+                            // DIRECCIÓN DEL EVENTO
                             ?>
                             <li class="single-general-list single-address-event">
                                 <span class="single-information-title">Dirección:</span> <?php echo ' ' . $address; ?>
@@ -594,6 +633,7 @@ while ( have_posts() ) : the_post(); ?>
                     </div>
                     <div class="col-md-8">
                         <?php
+                        // DESCRIPCIÓN DEL EVENTO
                         if (!empty(get_the_content())) { ?>
                             <div class="single-event-content">
                                 <h4>Información</h4>
@@ -829,10 +869,12 @@ while ( have_posts() ) : the_post(); ?>
                                 }
                                 ?>
                             </li>
-                            <li class="single-general-list single-places-event">
+
                                 <?php
                                 if($status=='Disponible') {
-                                    if ($price == '' || $price == '0') {
+                                    if ($price == '' || $price == '0') {?>
+                                        <li class="single-general-list single-places-event">
+                                        <?php
                                         $count_places_table = $wpdb->prefix . "cem_event_places";
                                         $count_places = $wpdb -> get_var("SELECT COUNT(*) FROM $count_places_table WHERE event_id = '$post_id'");
                                         if ($count_places > 0) {
@@ -841,17 +883,23 @@ while ( have_posts() ) : the_post(); ?>
                                             <span class="single-information-title">Plazas:</span>  <?php echo ' ' . $event_places; ?>
                                             <?php
                                         } elseif ($count_places == 0) {
-                                            ?>
-                                            <span class="single-information-title">Plazas:</span> No existen plazas disponibles
-                                            <?php
+                                            if ($subscribe_quantity != '' && $subscribe_quantity != '0') {
+                                                ?>
+                                                <span class="single-information-title">Plazas:</span> <?php echo $subscribe_quantity; ?>
+                                                <?php
+                                            } else {
+                                                ?>
+                                                <span class="single-information-title">Plazas:</span> No existen plazas disponibles
+                                                <?php
+                                            }
                                         }
                                         ?>
-
+                                        </li>
                                         <?php
                                     }
                                 }
                                 ?>
-                            </li>
+
                             <li class="single-general-list single-date-event">
                                 <?php
                                 if ($event_date_ini == '01/01/1970') { ?>
@@ -1179,10 +1227,12 @@ while ( have_posts() ) : the_post(); ?>
                                 }
                                 ?>
                             </li>
-                            <li class="single-general-list single-places-event">
+
                                 <?php
                                 if($status=='Disponible') {
-                                    if ($price == '' || $price == '0') {
+                                    if ($price == '' || $price == '0') {?>
+                                        <li class="single-general-list single-places-event">
+                                        <?php
                                         $count_places_table = $wpdb->prefix . "cem_event_places";
                                         $count_places = $wpdb -> get_var("SELECT COUNT(*) FROM $count_places_table WHERE event_id = '$post_id'");
                                         if ($count_places > 0) {
@@ -1191,17 +1241,23 @@ while ( have_posts() ) : the_post(); ?>
                                             <span class="single-information-title">Plazas:</span>  <?php echo ' ' . $event_places; ?>
                                             <?php
                                         } elseif ($count_places == 0) {
-                                            ?>
-                                            <span class="single-information-title">Plazas:</span> No existen plazas disponibles
-                                            <?php
+                                            if ($subscribe_quantity != '' && $subscribe_quantity != '0') {
+                                                ?>
+                                                <span class="single-information-title">Plazas:</span> <?php echo $subscribe_quantity; ?>
+                                                <?php
+                                            } else {
+                                                ?>
+                                                <span class="single-information-title">Plazas:</span> No existen plazas disponibles
+                                                <?php
+                                            }
                                         }
                                         ?>
-
+                                        </li>
                                         <?php
                                     }
                                 }
                                 ?>
-                            </li>
+
                             <li class="single-general-list single-date-event">
                                 <?php
                                 if ($event_date_ini == '01/01/1970') { ?>

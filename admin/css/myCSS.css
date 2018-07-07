@@ -1,4 +1,20 @@
 
+div#ht-content {
+    min-height: 700px;
+}
+
+.no-more-events {
+    text-align: center;
+    width: 100%;
+    text-transform: uppercase;
+    margin-top: 285px;
+}
+
+.no-more-events h2 {
+    font-size: 50px;
+    font-weight: bold;
+}
+
 /*
 Cada evento en la página que muestra todos los eventos
  */
@@ -182,6 +198,10 @@ span.discout-value {
 
 .single-featured-image-header {
     display: none !important;
+}
+
+.single-event-title {
+    margin-top: 55px;
 }
 
 .single-event-title h1 {
